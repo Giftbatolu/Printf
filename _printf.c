@@ -6,35 +6,40 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list list_print;
-	unsigned int loot = 1, move = 0, skd;
+	type type_t[] = {
+		{"c", print_char},
+		{"s", print_string},
+		{"%", print_percent},
+		{NULL, NULL}
+	};
+	va_list args;
+	int i, j;
+	int count = 0;
 
 	if (format == NULL)
 		return (-1); /* since it null, it return error */
 
-	va_start(list_print, format);
-	for (; format[move] != '\0'; move++)
+	va_start(args, format);
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (format[move] != '%')
+		if (format[i] == '%')
 		{
-			sekad(format[move]);
+			for (j = 0; type_t[j].specifier != NULL; j++)
+			{
+				if (format[i + 1] == type_t[j].specifier[0])
+				{
+					count += type_t[j].f(args);
+					break;
+				}
+			}
+			i++;
 		}
-		if (format[move] == '%' && format[move + 1] == '%')
+		else
 		{
-			sekad('%');
-		}
-		if (format[move] == '%' && format[move + 1] == 'c')
-		{
-			sekad(va_arg(list_print, int));
-			move++;
-		}
-		if (format[move] == '%' && format[move + 1] == 's')
-		{
-			skd = sekdam(va_arg(list_print, char *));
-			move++;
-			loot += (skd - 1);
+			_putchar(format[i]);
+			count++;
 		}
 	}
-		va_end(list_print);
-		return (loot);
+	va_end(args);
+	return (count);
 }
