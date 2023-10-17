@@ -7,7 +7,7 @@
 int _printf(const char *format, ...)
 {
 	va_list list_print;
-	int loot = 0, move = 0;
+	unsigned int loot = 1, move = 0, skd;
 
 	if (format == NULL)
 		return (-1); /* since it null, it return error */
@@ -18,26 +18,23 @@ int _printf(const char *format, ...)
 		if (format[move] != '%')
 		{
 			sekad(format[move]);
-			loot++;
 		}
 		if (format[move] == '%' && format[move + 1] == '%')
 		{
 			sekad('%');
-			loot++;
 		}
 		if (format[move] == '%' && format[move + 1] == 'c')
 		{
 			sekad(va_arg(list_print, int));
-			loot++;
 			move++;
 		}
 		if (format[move] == '%' && format[move + 1] == 's')
 		{
-			sekdam(va_arg(list_print, char *));
-			loot++;
+			skd = sekdam(va_arg(list_print, char *));
 			move++;
+			loot += (skd - 1);
 		}
 	}
-		return (loot);
 		va_end(list_print);
+		return (loot);
 }
