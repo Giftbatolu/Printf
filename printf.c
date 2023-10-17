@@ -18,8 +18,8 @@ int _printf(const char *format, ...)
 				format++;
 				continue;
 			}
-		else
-			format++;
+			else
+				format++;
 
 		switch (*format)
 		{
