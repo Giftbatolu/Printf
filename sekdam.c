@@ -7,5 +7,15 @@
 
 int sekdam(char *look_string)
 {
-	return (write(1, look_string, strlen(look_string)));
+	int length = 0;
+
+	if (*look_string)
+	{
+		while (look_string[length] != '\0')
+		{
+			sekad(look_string[length]);
+				length++;
+		}
+	}
+	return (length);
 }
